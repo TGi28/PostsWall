@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Blade;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,4 +22,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
     }
+
+
 }

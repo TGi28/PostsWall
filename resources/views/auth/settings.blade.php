@@ -5,44 +5,31 @@
     @session('status')
         <div class="text-green-500 text-[18px] mt-1">{{ $value }}</div>
     @endsession
-    <form action="/settings" method="POST">
-        @csrf
-        @method('patch')
-
-        <div class="space-y-12">
-            <div class="border-b border-gray-900/10 pb-12 flex justify-center">
-                <div class="mt-10 flex flex-col text-center gap-8 justify-center w-8/12">
-                    <x-form-field>
-                        <x-form-label class="text-[30px]" for="first_name">Name</x-form-label>
-                        <div class="mt-2">
-                            <x-form-input value="{{ auth()->user()->first_name }}" type="text" name="first_name" id="first_name" required></x-form-input>
-                            <x-form-error name="first_name"></x-form-error>
-                        </div>
-                    </x-form-field>
-
-                    <x-form-field>
-                        <x-form-label class="text-[30px]" for="last_name">Surname</x-form-label>
-                        <div class="mt-2">
-                            <x-form-input value="{{ auth()->user()->last_name }}" type="text" name="last_name" id="last_name" required></x-form-input>
-                            <x-form-error name="last_name"></x-form-error>
-                        </div>
-                    </x-form-field>
-
-                    <x-form-field>
-                        <x-form-label class="text-[30px]" for="email">Email</x-form-label>
-                        <div class="mt-2">
-                            <x-form-input value="{{ auth()->user()->email }}" type="text" name="email" id="email" required></x-form-input>
-                            <x-form-error name="email"></x-form-error>
-                        </div>
-                    </x-form-field>
-                </div>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" action="/settings" method="POST">
+          @csrf
+          @method('patch')
+          <div>
+              <label for="first_name" class="block text-sm/6 font-medium">First name</label>
+              <div class="mt-2">
+                <input value="{{ auth()->user()->first_name }}" type="first_name" name="first_name" id="first_name" autocomplete="first_name" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+              </div>
             </div>
-        <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" class="text-sm/6 font-semibold text-gray-900"><a href="{{ route('posts.index', ['sort'=>session('posts_sort','views')]) }}">Cancel</a></button>
-            <x-form-button>Save</x-form-button>
-        </div>
-        </div>
-
-    </form>
+          <div>
+          <label for="last_name" class="block text-sm/6 font-medium">Last name</label>
+          <div class="mt-2">
+              <input value="{{ auth()->user()->last_name }}" type="last_name" name="last_name" id="last_name" autocomplete="last_name" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+          </div>
+          </div>
+          <div>
+            <label for="email" class="block text-sm/6 font-medium">Email address</label>
+            <div class="mt-2">
+              <input value="{{ auth()->user()->email }}" type="email" name="email" id="email" autocomplete="email" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-sky-500 sm:text-sm/6">
+            </div>
+          </div>    
+          <div>
+            <button type="submit" class="flex w-full justify-center rounded-md bg-sky-500 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-sky-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-500">Save</button>
+          </div>
+        </form>
 
 </x-layout>

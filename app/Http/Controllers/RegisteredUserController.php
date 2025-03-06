@@ -13,8 +13,8 @@ class RegisteredUserController extends Controller
         return view("auth.register");
     }
 
-    public function store() {
-        request()->validate( [
+    public function store(Request $request) {
+        $request->validate( [
             'first_name' => 'required',
             'last_name'=> 'required',
             'email' => 'required|email|unique:users',
@@ -22,15 +22,15 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'first_name'=> request('first_name'),
-            'last_name'=> request('last_name'),
-            'email'=> request('email'),
-            'password'=> bcrypt(request('password')),
-            'slug' => Str::slug((request('first_name') .' '. request('last_name')) . ' ' . fake()->unique()->numberBetween(1, 1000)),
+            'first_name'=> $request->first_name,
+            'last_name'=> $request->last_name,
+            'email'=> $request->email,
+            'password'=> bcrypt($request->password),
+            'slug' => Str::slug(($request->first_name .' '. $request->last_name) . ' ' . fake()->unique()->numberBetween(1, 1000)),
             'admin' => false,
         ]);
 
         auth()->login($user);
-        return redirect('/users');
+        return redirect('/');
     }
 }

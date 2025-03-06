@@ -22,7 +22,7 @@ Route::patch('/settings', [SessionController::class,'update'])->middleware('auth
 
 
 Route::get('/', function () {
-    return view('home', ['posts' => Post::take(20)->get()]);
+    return view('home', ['posts' => Post::take(20)->orderBy('views','DESC')->get()]);
 });
 Route::get('/logout', [SessionController::class,'destroy'])->middleware('auth');
 
@@ -46,4 +46,7 @@ Route::get('/tags/{tag:id}', [TagController::class,'show']);
 
 Route::get('/authors', [UserController::class,'index']);
 Route::get('/authors/{user:slug}', [UserController::class,'show']);
+
+Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
+Route::post('/posts/{post}/dislike', [PostController::class, 'dislike'])->name('posts.dislike');
 

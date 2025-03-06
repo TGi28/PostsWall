@@ -1,5 +1,4 @@
 <x-layout>
-        <div class="absolute left-10 top-30 text-[20px]"><a href="{{ route('posts.index', ['sort'=>session('posts_sort','latest')]) }}"><span>&larr;</span> All posts</a></div>
     <x-slot:heading>
         <div class="flex justify-between items-center w-full">
             <div>
@@ -26,7 +25,7 @@
                 </div>
                 <div class="flex gap-1 font-bold text-sm mt-2">
                     @foreach($post->tags as $tag)
-                    <div class="bg-sky-300 p-1 rounded-md">{{ $tag->name }}</div>
+                    <a href="/tags/{{ $tag->id }}" class="bg-sky-300 p-1 rounded-md">{{ $tag->name }}</a>
                     @endforeach
                 </div>
             </div>
@@ -35,10 +34,24 @@
     </x-slot:heading>
 
     <div class="border-b border-gray-900/10">
-        <div class="text-[20px] mb-6 post-content">{!! $post->description !!}</div>
+        <div class="text-[20px] mb-6 post-content text-white">{!! $post->description !!}</div>
     </div>
-    <div class="text-right">
-        <p class="text-[20px] mt-2">Created <span class="font-bold">{{ $post->created_at->diffForHumans() }}</span> by <a class="text-sky-500 hover:underline" href="/users/{{ $post->user->slug }}">{{ $post->user->first_name }} {{ $post->user->last_name }}</a> </p>
+    <div class="flex justify-between">
+        <div class="flex gap-3 items-center">
+            <div class="flex items-center gap-1">
+                <div id="likes-count">{{ $post->likes }}</div>
+                <button onclick="handleLike()">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAuUlEQVR4nO3TMQ4BQRSH8VFQCOdQOYNS9gQKpxFWTeIAGr1G4wA6J9CIFZ2IUFDIpxGe7JjYzXsVX/ky+f+qce5nAirADBgAZQugxauxBTAUwEF7vAqsBLDXHC8Bc95baI0XgAnpulpAB3/1PGN94AzE4nYkewkQ+YDr48FF3PK28QHPFACsgbU1MLIEbkDNEpimxpWBhiWw9I4rAu0Q4PtoSYbxLVAMATFwAnriFn2J7IDmx/F/LtAdHJuxSvORTcoAAAAASUVORK5CYII=" alt="facebook-like--v1">
+                </button>
+            </div>
+            <div class="flex items-center gap-1">
+                <div id="dislikes-count">{{ $post->dislikes }}</div>
+                <button onclick="handleDislike()">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAp0lEQVR4nN3NMQ4BURSF4Us0dmEDGhvQSkg0Cr3KEqzAHqzBJphYgR0wGv1UJL+8yiMeM5N7RPzlyc39zP4iYMe9LNqHQE65TuE+BTwU7UeqdQbaVYA6zdTAHmgogVBfDazVwBXoKIHQUg3kaoCvAlm0b52Ag30qHNV9DgzKAGPgkniyMY+ASQIpgJYa6bkAb5C5eQZMn5CVK/ACWZgioAuMgKYE+KluSxlkiCKqHTcAAAAASUVORK5CYII=" alt="thumbs-down">
+                </button>
+            </div>
+        </div>
+        <p class="text-[20px] mt-2 text-right">Created <span class="font-bold">{{ $post->created_at->diffForHumans() }}</span> by <a class="text-sky-500 hover:underline" href="/authors/{{ $post->user->slug }}">{{ $post->user->first_name }} {{ $post->user->last_name }}</a> </p>
     </div>
     <div class="mt-6">
         @if($post->comments->count() > 10)
@@ -76,7 +89,7 @@
                         </div>
                         <div>
                             <p class="text-[12px] mt-1">
-                                <a class="text-sky-500 hover:underline" href="/users/{{ $comment->user->slug }}">{{ $comment->user->first_name }} {{ $comment->user->last_name }}</a>
+                                <a class="text-sky-500 hover:underline" href="/authors/{{ $comment->user->slug }}">{{ $comment->user->first_name }} {{ $comment->user->last_name }}</a>
                             on {{ $comment->formatted_date }}</p>
                         </div>
                     </li>
@@ -86,7 +99,7 @@
                     <form action="{{ route('comments.store', $post) }}" method="POST">
                     @csrf
                         <div class="mt-6">
-                        <label class="block font-bold text-[18px] text-gray-900">Write a comment</label>
+                        <label class="block font-bold text-[18px]">Write a comment</label>
                         <div class="flex items-end mt-1">
                             <textarea rows="3" type="text" name="comment_text" id="comment_text" class="block min-w-0 max-w-sm rounded-lg grow py-1.5 px-2 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"></textarea>
                             <button type="submit" class="inline-flex ml-2 justify-center gap-x-1.5 rounded-md bg-white p-2 text-sm font-semibold text-gray-900 ring-1 shadow-xs ring-gray-300 ring-inset hover:bg-gray-50">Publish</button>
@@ -101,4 +114,33 @@
             </div>
             @endif
     </div>
+    <script>
+        function handleLike() {
+            fetch('/posts/{{ $post->slug }}/like', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('likes-count').textContent = data.likes;
+            });
+        }
+    
+        function handleDislike() {
+            fetch('/posts/{{ $post->slug }}/dislike', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('dislikes-count').textContent = data.dislikes;
+            });
+        }
+    </script>
 </x-layout>

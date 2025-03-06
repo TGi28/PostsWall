@@ -34,6 +34,7 @@ class PostController extends Controller
             'description' => $request->description,
             'user_id' => $request->user()->id,
             'slug' => fake()->slug(),
+            'poster' => "https://picsum.photos/id/".(int)random_int(0,100)."/600/400"
         ]);
     
         $tagNames = explode(',', $request->tag);
@@ -113,9 +114,22 @@ class PostController extends Controller
         $query = $request->input('query');
 
         $posts = Post::where('title', 'LIKE', "%{$query}%")
-                    ->orWhere('content', 'LIKE', "%{$query}%")
-                    ->paginate(10);
+                    ->orWhere('description', 'LIKE', "%{$query}%")
+                    ->paginate(12);
 
         return view('posts.index', compact('posts'));
+    }
+
+    
+    public function like(Post $post)
+    {
+        $post->increment('likes');
+        return response()->json(['likes' => $post->likes]);
+    }
+    
+    public function dislike(Post $post)
+    {
+        $post->increment('dislikes');
+        return response()->json(['dislikes' => $post->dislikes]);
     }
 }

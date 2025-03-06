@@ -23,7 +23,10 @@ class PostFactory extends Factory
             "title"=>fake()->streetName(),
             "description"=>fake()->paragraph(30),
             'views'=>(int)random_int(0,10000),
+            'likes'=>(int)random_int(0,100),
+            'dislikes'=>(int)random_int(0,50),
             'slug'=>fake()->slug(),
+            'poster'=>"https://picsum.photos/id/".(int)random_int(0,100)."/400/400"
         ];
     }
 }

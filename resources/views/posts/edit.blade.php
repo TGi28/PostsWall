@@ -12,22 +12,20 @@
                     <x-form-field>
                         <x-form-label for="title">Title</x-form-label>
                         <div class="mt-2">
-                            <x-form-input type="text" name="title" id="title" placeholder="$10000" value="{{ $post->title }}"></x-form-input>
+                            <x-form-input value="{{ $post->title }}" type="text" name="title" id="title" placeholder="Sharks and dolphins" required></x-form-input>
                             <x-form-error name="title"></x-form-error>
                         </div>
                     </x-form-field>
 
-                    <div class="sm:col-span-4">
-                        <label for="description" class="block text-sm/6 font-medium text-gray-900">Description</label>
-                        <div class="mt-2">
-                            <div class="flex flex-col pl-3 pr-3 outline-1 -outline-offset-1 outline-gray-300 focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-indigo-600">
-                               <div class="mt-2" id="editor" style="height: 300px;">{!! $post->description !!}</div>
-                                <input type="hidden" name="description" id="hiddenContent">
-                            </div>
-                            @error('description')
-                                <div class="text-red-500 text-[14px] mt-1">{{ $message }}</div>
-                            @enderror
+                    <div class="col-span-full">
+                        <label for="description" class="block text-sm/6 font-medium text-white">Description</label>
+                        <div class="mt-2 bg-white">
+                            <div id="editor" class="block w-full h-full rounded-md px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>{!! $post->description !!}</div>
+                            <input type="text" id="hiddenContent" name="description">
                         </div>
+                        @error('description')
+                            <div class="text-red-500 text-[14px] mt-1">{{ $message }}</div>
+                        @enderror
                     </div>
 
                     <x-form-field>

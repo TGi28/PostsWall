@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function index() {
-        return view('users.index', ['users'=>User::latest()->paginate(32)], );
+        return view('users.index', ['users'=>User::orderBy('posts', 'desc')->paginate(33)], );
     }
 
     public function show(User $user) {
