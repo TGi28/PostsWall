@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\NotificationCreated;
 use App\Models\Post;
 use App\Models\Tag;
-use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Http\Request;
 class PostController extends Controller
 {
@@ -26,15 +27,21 @@ class PostController extends Controller
         $request->validate([
             'title' =>'required|min:3',
             'description' =>'required|min:100',
-            'tag' =>'required|min:3|string',
+            'poster' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'preview' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'tag' =>'required|min:3|string'
         ]);
+
+        $poster = $request->file('poster')->store('images','public');
+        $preview = $request->file('preview')->store('images','public');
         
         $post = Post::create([
             'title' => $request->title,
             'description' => $request->description,
             'user_id' => $request->user()->id,
             'slug' => fake()->slug(),
-            'poster' => "https://picsum.photos/id/".(int)random_int(0,100)."/600/400"
+            'poster' => $poster,
+            'preview' => $preview,
         ]);
     
         $tagNames = explode(',', $request->tag);
@@ -46,6 +53,23 @@ class PostController extends Controller
             $tagIds[] = $tag-> id;
         }
         $post->tags()->sync($tagIds);
+        
+        // Find subscribers using a different approach for SQLite
+        $subscribers = User::whereNotNull('subscriptions')->where('subscriptions', 'LIKE', '%"'.$post->user->id.'"%')->get();
+
+            
+        // Remove the dd() and add notification logic
+        foreach ($subscribers as $subscriber) {
+            $subscriber->notifications()->create([
+                'name' => 'New Post',
+                'description' => 'New post from ' . $request->user()->first_name . ' '.$request->user()->last_name,
+                'user_id' => $subscriber->id,
+                'is_read' => 0,
+            ]);
+            
+            broadcast(new NotificationCreated('New Post Available'))->toOthers();
+        }
+        
         return redirect('/posts?sort=views');
     }
     public function create() {
@@ -93,22 +117,6 @@ class PostController extends Controller
         return redirect('/posts?sort=views');
     }
 
-    public function storeComment(Request $request ,Post $post) {
-        $request ->validate([
-            'comment_text' =>'required|min:3',
-        ]);
-        $post->comments()->create([
-            'comment_text' => $request->comment_text,
-            'user_id' => $request->user()->id
-        ]);
-        return back();
-    }
-
-    public function destroyComment(Comment $comment) {
-        $comment->delete();
-    return back();
-    }
-
     public function search(Request $request)
     {
         $query = $request->input('query');
@@ -118,18 +126,5 @@ class PostController extends Controller
                     ->paginate(12);
 
         return view('posts.index', compact('posts'));
-    }
-
-    
-    public function like(Post $post)
-    {
-        $post->increment('likes');
-        return response()->json(['likes' => $post->likes]);
-    }
-    
-    public function dislike(Post $post)
-    {
-        $post->increment('dislikes');
-        return response()->json(['dislikes' => $post->dislikes]);
     }
 }

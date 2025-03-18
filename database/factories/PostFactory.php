@@ -26,7 +26,8 @@ class PostFactory extends Factory
             'likes'=>(int)random_int(0,100),
             'dislikes'=>(int)random_int(0,50),
             'slug'=>fake()->slug(),
-            'poster'=>"https://picsum.photos/id/".(int)random_int(0,100)."/400/400"
+            'poster'=>"https://picsum.photos/id/".(int)random_int(0,100)."/1000/400",
+            'preview'=>"https://picsum.photos/id/".(int)random_int(0,100)."/400/400"
         ];
     }
 }

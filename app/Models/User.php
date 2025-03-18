@@ -21,9 +21,21 @@ class User extends Authenticatable
         return $this->hasMany(Comment::class);
     }
 
+    public function notifications() {
+        return $this->hasMany(Notifications::class);
+    }
+
+    public function chat() {
+        return $this->belongsToMany(Chat::class, 'chat_participants');
+    }
+
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
     public function getRouteKeyName() {
         return "slug";
     }
+
     
     /**
      * The attributes that are mass assignable.
@@ -36,7 +48,10 @@ class User extends Authenticatable
         'email',
         'password',
         'slug',
-        'admin'
+        'admin',
+        'avatar',
+        'reactions',
+        'subscriptions'
     ];
 
     /**
@@ -47,6 +62,13 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+        'reactions' => 'array',
+        'subscriptions' => 'array' // Cast as object instead of array
     ];
 
     /**

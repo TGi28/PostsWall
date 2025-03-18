@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:heading>
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Edit post "{{ $post->title }}"</h1>
+        <h1 class="text-3xl font-bold tracking-tight">Edit post "{{ $post->title }}"</h1>
     </x-slot:heading>
     <form action="{{ route('posts.update', $post->slug) }}" method="POST">
     @csrf
@@ -18,10 +18,10 @@
                     </x-form-field>
 
                     <div class="col-span-full">
-                        <label for="description" class="block text-sm/6 font-medium text-white">Description</label>
+                        <label for="description" class="block text-[20px] font-medium">Description</label>
                         <div class="mt-2 bg-white">
                             <div id="editor" class="block w-full h-full rounded-md px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" required>{!! $post->description !!}</div>
-                            <input type="text" id="hiddenContent" name="description">
+                            <input class="hidden" type="text" id="hiddenContent" name="description">
                         </div>
                         @error('description')
                             <div class="text-red-500 text-[14px] mt-1">{{ $message }}</div>

@@ -11,6 +11,7 @@ class SessionController extends Controller
     public function index() {
         return view('auth.index', ['posts' => auth()->user()->posts]);
     }
+
     public function create() {
         return view('auth.login');
     }
@@ -43,7 +44,7 @@ class SessionController extends Controller
         $request->validate([
             'first_name' =>'required',
             'last_name'=> 'required',
-            'email' => 'required|email|exists:users'
+            'email' => 'required|email|unique:users,email,'.auth()->user()->id,
         ]);
         
         $request->user()->update([

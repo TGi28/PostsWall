@@ -4,9 +4,11 @@
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TagController;
+use App\Models\User;
+use App\Models\Tag;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
-use App\Http\Controllers\ImageController;
+use App\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
 
@@ -22,11 +24,14 @@ Route::patch('/settings', [SessionController::class,'update'])->middleware('auth
 
 
 Route::get('/', function () {
-    return view('home', ['posts' => Post::take(20)->orderBy('views','DESC')->get()]);
+    return view('home', ['posts' => Post::take(9)->orderBy('views','DESC')->get(),'users' => User::withSum('posts', 'views')
+    ->orderByDesc('posts_sum_views')
+    ->limit(9)
+    ->get(), 'tags' => Tag::take(9)->get()]);
 });
 Route::get('/logout', [SessionController::class,'destroy'])->middleware('auth');
 
-Route::get('/profile', [SessionController::class,'index'])->middleware('auth');
+Route::get('/profile', [SessionController::class,'index'])->middleware('auth')->name('profile.index');
 
 
 Route::get('posts', [PostController::class,'index'])->name('posts.index');
@@ -37,8 +42,6 @@ Route::get('posts/{post:slug}/edit', [PostController::class, 'edit'])->middlewar
 Route::patch('/posts/{post:slug}', [PostController::class,'update'])->middleware('auth')->name('posts.update');
 Route::delete('/posts/{post:slug}', [PostController::class,'destroy'])->middleware('auth')->name('posts.destroy');
 Route::get('/posts/{post:slug}', [PostController::class,'show']);
-Route::post('posts/{post:slug}/comment', [PostController::class, 'storeComment'])->name('comments.store')->middleware('auth');
-Route::delete('comments/{comment}', [PostController::class,'destroyComment'])->name('comments.destroy')->middleware('auth');
 
 
 Route::get('/tags', [TagController::class,'index']);
@@ -47,6 +50,4 @@ Route::get('/tags/{tag:id}', [TagController::class,'show']);
 Route::get('/authors', [UserController::class,'index']);
 Route::get('/authors/{user:slug}', [UserController::class,'show']);
 
-Route::post('/posts/{post}/like', [PostController::class, 'like'])->name('posts.like');
-Route::post('/posts/{post}/dislike', [PostController::class, 'dislike'])->name('posts.dislike');
-
+Route::get('/chats', [MessagesController::class,'index'])->middleware('auth');

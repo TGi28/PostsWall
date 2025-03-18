@@ -19,7 +19,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('slug');
             $table->string('password');
+            $table->json('reactions')->nullable();
             $table->boolean('admin');
+            $table->string('avatar')->nullable();
+            $table->string('subscribers')->default(0);
+            $table->json('subscriptions')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -33,6 +33,7 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'reactions' => [],
             'slug' => Str::slug($first_name.' '.$last_name.' '.$slug_id),
             'admin' => false,
         ];

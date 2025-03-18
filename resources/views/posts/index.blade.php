@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:heading>
-        <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight text-gray-900">All posts</h1>
+        <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight text-white dark:text-gray-900 text-center sm:text-left">All posts</h1>
         <div class="flex items-center gap-4 w-full sm:w-1/2 mt-3 sm:mt-0">
             <form class="flex-1" action="{{ route('posts.search') }}" method="GET">   
               <div class="flex">
@@ -9,15 +9,15 @@
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
                 </svg></button>
                 <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
-                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button" id="menu">
+                    <ul class="py-2 text-sm text-gray-900 dark:text-white" aria-labelledby="dropdown-button" id="menu">
                     <li>
-                      <a href="{{ route('posts.index', ['sort' => 'views']) }}" class="block px-4 py-2 text-sm {{ request('sort') == 'views' ? "font-bold text-sky-500" : 'font-normal text-white' }}" role="menuitem" tabindex="-1" id="menu-item-1">Popular</a>
+                      <a href="{{ route('posts.index', ['sort' => 'views']) }}" class="block px-4 py-2 text-sm {{ request('sort') == 'views' ? "font-bold text-sky-500" : 'font-normal ' }}" role="menuitem" tabindex="-1" id="menu-item-1">Popular</a>
                     </li>
                     <li>
-                      <a href="{{ route('posts.index', ['sort' => 'latest']) }}" class="block px-4 py-2 text-sm {{ request('sort') == 'latest' ? "font-bold text-sky-500" : 'font-normal text-white' }}" role="menuitem" tabindex="-1" id="menu-item-0">Latest</a>
+                      <a href="{{ route('posts.index', ['sort' => 'latest']) }}" class="block px-4 py-2 text-sm {{ request('sort') == 'latest' ? "font-bold text-sky-500" : 'font-normal' }}" role="menuitem" tabindex="-1" id="menu-item-0">Latest</a>
                     </li>
                     <li>
-                      <a href="{{ route('posts.index', ['sort' => 'oldest']) }}" class="block px-4 py-2 text-sm {{ request('sort') == 'oldest' ? "font-bold text-sky-500" : 'font-normal text-white' }}" role="menuitem" tabindex="-1" id="menu-item-1">Oldest</a>
+                      <a href="{{ route('posts.index', ['sort' => 'oldest']) }}" class="block px-4 py-2 text-sm {{ request('sort') == 'oldest' ? "font-bold text-sky-500" : 'font-normal' }}" role="menuitem" tabindex="-1" id="menu-item-1">Oldest</a>
                     </li>
                     </ul>
                 </div>
@@ -34,32 +34,6 @@
             </form>
         </div>
     </x-slot:heading>
-    <ul class="grid grid-cols-1 sm:grid-rows-1 gap-3 text-center mt-2">
-        @foreach($posts as $post)
-        <a href="/posts/{{ $post->slug }}">
-            <li class="flex sm:flex-row flex-col border-2 bg-white border-gray-500 rounded-lg hover:text-sky-800 text-[25px] text-black">
-                <img class="object-cover w-full sm:w-1/3 h-[200px] sm:h-auto rounded-t-md sm:rounded-l-md sm:rounded-tr-none" src="{{ $post->poster }}" alt="{{ $post->title }}">
-                    <div class="relative sm:w-2/3">
-                            <div class="p-3 pl-5">
-                                <h3 class="line-clamp-1 mt-2 text-left text-[30px] sm:text-[35px] font-bold">
-                                    {{ $post['title'] }} 
-                                </h3>
-                                <div class="flex gap-1 font-bold text-[13px]">
-                                    @foreach($post->tags as $tag)
-                                    <div class="bg-sky-300 p-1 mt-1 mb-2 rounded-md">{{ $tag->name }}</div>
-                                    @endforeach
-                                </div>
-                                <p class="line-clamp-3 sm:line-clamp-6 text-[18px] sm:text-[22px] text-left">{{ html_entity_decode(strip_tags($post->description)) }}</p>
-                            </div>
-                            <span class="absolute top-2 right-2 text-[15px] flex items-center gap-1">{{ $post->views }} <img width="20" height="20" src="https://img.icons8.com/material-outlined/24/visible--v1.png" alt="visible--v1"/></span>
-                            <div class="divide-gray-400 border-t-2 mt-1 flex justify-between items-center p-3 text-[17px] sm:text-[20px]">
-                                <div class="text-sky-500 font-bold">{{ $post->user->first_name }} {{ $post->user->last_name }}</div>
-                                <div class="text-right text-sky-500">{{ $post->created_at->diffForHumans() }}</div>
-                            </div>
-                    </div>
-                </li>
-            </a>
-        @endforeach
-    </ul>
+    <x-post-card :posts="$posts"></x-post-card>
     <div class="mt-4">{{ $posts->appends(['sort' => request('sort')])->links() }}</div>
 </x-layout>

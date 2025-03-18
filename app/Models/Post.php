@@ -17,7 +17,8 @@ class Post extends Model
         "user_id",
         'views',
         'slug',
-        'poster'
+        'poster',
+        'preview'
     ];
 
     public function getFormattedDateAttribute()
