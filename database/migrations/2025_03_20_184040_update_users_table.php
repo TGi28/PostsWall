@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->string('name');
             $table->json('reactions')->nullable();
-            $table->boolean('admin');
             $table->string('avatar')->nullable();
             $table->string('subscribers')->default(0);
             $table->json('subscriptions')->nullable();
