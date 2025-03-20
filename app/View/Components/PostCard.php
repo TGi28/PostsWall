@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class BaseLayout extends Component
+class PostCard extends Component
 {
     /**
      * Create a new component instance.
@@ -21,6 +21,6 @@ class BaseLayout extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.base-layout');
+        return view('components.post-card');
     }
 }
