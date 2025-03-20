@@ -21,6 +21,6 @@ class PostCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.post-card');
+        return view('Components.post-card');
     }
 }

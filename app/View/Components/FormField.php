@@ -21,6 +21,6 @@ class FormField extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form-field');
+        return view('Components.form-field');
     }
 }

@@ -21,6 +21,6 @@ class FormError extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form-error');
+        return view('Components.form-error');
     }
 }

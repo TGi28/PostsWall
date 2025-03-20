@@ -21,6 +21,6 @@ class FormButton extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.form-button');
+        return view('Components.form-button');
     }
 }

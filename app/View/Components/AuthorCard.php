@@ -21,6 +21,6 @@ class AuthorCard extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.author-card');
+        return view('Components.author-card');
     }
 }
