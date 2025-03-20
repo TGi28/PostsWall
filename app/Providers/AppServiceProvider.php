@@ -21,6 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Blade::component('base-layout', \App\View\Components\BaseLayout::class);
     }
 
 
