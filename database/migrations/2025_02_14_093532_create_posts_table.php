@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer('views')->default(0);
             $table->integer('likes')->default(0);
             $table->integer('dislikes')->default(0);
-            $table->string('slug')->unique();
             $table->timestamps();
         });
     }

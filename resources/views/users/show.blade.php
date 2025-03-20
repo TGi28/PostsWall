@@ -3,7 +3,7 @@
         <div class="flex gap-3">
             <div>
                 @if($user->avatar)
-                    <img class="w-[150px] h-[150px] rounded-full object-cover" src="{{ asset($user->avatar) }}" alt="{{ $user->first_name }}">
+                    <img class="w-[150px] h-[150px] rounded-full object-cover" src="{{ asset($user->avatar) }}" alt="{{ $user->name }}">
                 @endif               
             </div>
             

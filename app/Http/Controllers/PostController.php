@@ -39,7 +39,6 @@ class PostController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'user_id' => $request->user()->id,
-            'slug' => fake()->slug(),
             'poster' => $poster,
             'preview' => $preview,
         ]);
@@ -61,7 +60,7 @@ class PostController extends Controller
         foreach ($subscribers as $subscriber) {
             $subscriber->notifications()->create([
                 'name' => 'New Post',
-                'description' => 'New post from ' . $request->user()->first_name . ' '.$request->user()->last_name,
+                'description' => 'New post from ' . $request->user()->name,
                 'user_id' => $subscriber->id,
                 'is_read' => 0,
             ]);
@@ -108,7 +107,7 @@ class PostController extends Controller
             $tagIds[] = $tag->id;
         }
         $postToEdit->tags()->sync($tagIds);
-        return redirect('/posts/'.$post->slug);
+        return redirect('/posts/'.$post->id);
     }
 
     public function destroy(Post $post) {

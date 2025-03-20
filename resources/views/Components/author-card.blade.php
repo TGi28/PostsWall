@@ -1,7 +1,7 @@
 @props(['users'])
 <ul class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-gray-900">
     @foreach($users as $user)
-        <a href="/authors/{{ $user->slug }}"  class=" border-2 border-gray-500 rounded-lg block bg-gray-800 dark:bg-white hover:shadow-sky-500 hover:shadow-md">
+        <a href="/authors/{{ $user->id }}"  class=" border-2 border-gray-500 rounded-lg block bg-gray-800 dark:bg-white hover:shadow-sky-500 hover:shadow-md">
             <div class="flex flex-col">
                 <div>
                     <img class="object-cover w-full block h-[400px] rounded-t-md" src=" @if ($user->avatar) {{ asset($user->avatar) }} @else {{ asset('images/avatars/avatar-default.jpg') }} @endif" alt="">

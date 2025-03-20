@@ -32,7 +32,7 @@
                     </div>
                     <div>
                         <p class="text-[12px] mt-1">
-                            <a class="text-sky-500 hover:underline" href="/authors/{{ $comment->user->slug }}">{{ $comment->user->first_name }} {{ $comment->user->last_name }}</a>
+                            <a class="text-sky-500 hover:underline" href="/authors/{{ $comment->user->id }}">{{ $comment->user->name }}</a>
                         at {{ $comment->formatted_date }}</p>
                     </div>
                 </li>

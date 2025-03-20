@@ -2,11 +2,11 @@
     <x-slot:heading>
         <div class="flex justify-center items-center gap-4">
             @if(auth()->user()->avatar !== null)
-                <img class="w-[150px] h-[150px] rounded-full object-cover" src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->first_name }}">
+                <img class="w-[150px] h-[150px] rounded-full object-cover" src="{{ asset(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}">
             @endif
             <div class="flex flex-col justify-center">
                 <div>
-                    <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight">{{ auth()->user()->first_name }} {{ auth()->user()->last_name }}</h1>
+                    <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight">{{ auth()->user()->name }}</h1>
                     <div class="flex items-center gap-2 mb-2 rounded-md text-white dark:text-gray-900 leading-3">
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">

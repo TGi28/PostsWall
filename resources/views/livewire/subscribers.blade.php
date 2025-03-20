@@ -2,7 +2,7 @@
 <div class="flex flex-col justify-center">
     <div>
         <div>
-            <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight">{{ $user->first_name }} {{ $user->last_name }}</h1>
+            <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight">{{ $user->name }}</h1>
             <div class="flex items-center gap-2 mb-2 rounded-md text-white dark:text-gray-900 leading-3">
                 <div class="flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-5">

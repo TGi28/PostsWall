@@ -1,7 +1,7 @@
 @props(['posts'])
 <ul class="grid grid-cols-1 sm:grid-rows-1 gap-3 text-center mt-2">
     @foreach($posts as $post)
-    <a href="/posts/{{ $post->slug }}">
+    <a href="/posts/{{ $post->id }}">
         <li class="flex sm:flex-row flex-col border-2 bg-gray-800 text-white dark:bg-white border-gray-500 rounded-lg hover:text-gray-200 dark:hover:text-gray-800 text-[25px] dark:text-black hover:shadow-sky-500 hover:shadow-md">
             <img class="object-cover w-full sm:w-1/3 h-[200px] sm:h-auto rounded-t-md sm:rounded-l-md sm:rounded-tr-none" src="{{ asset('storage/'.$post->preview) }}" alt="{{ $post->title }}">
                 <div class="relative sm:w-2/3">

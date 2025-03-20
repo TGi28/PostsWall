@@ -46,13 +46,12 @@ class SessionController extends Controller
 
     public function update(Request $request) {
         $request->validate([
-            'first_name' =>'required',
-            'last_name'=> 'required',
+            'name' =>'required|100|string',
             'email' => 'required|email|unique:users,email,'.auth()->user()->id,
         ]);
         
         $request->user()->update([
-            'name'=> $request->first_name . ' ' . $request->last_name,
+            'name'=> $request->name,
             'email'=> $request->email,
         ]);
         return back();

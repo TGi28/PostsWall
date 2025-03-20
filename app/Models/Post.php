@@ -16,7 +16,6 @@ class Post extends Model
         "description",
         "user_id",
         'views',
-        'slug',
         'poster',
         'preview'
     ];
@@ -24,10 +23,6 @@ class Post extends Model
     public function getFormattedDateAttribute()
     {
         return Carbon::parse($this->created_at)->format('d F Y');
-    }
-
-    public function getRouteKeyName() {
-        return 'slug';
     }
     public function user() {
         return $this->belongsTo(User::class, "user_id");

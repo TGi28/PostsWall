@@ -35,7 +35,7 @@ class Subscribers extends Component
         $user->save();
         $this->user->notifications()->create([
             'name' => 'New Subscriber',
-            'description' => 'You have a new subscriber - ' . $user->first_name . ' ' . $user->last_name,
+            'description' => 'You have a new subscriber - ' . $user->name,
             'user_id' => $this->user->id,
             'is_read' => 0,
         ]);

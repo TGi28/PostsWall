@@ -58,9 +58,6 @@ public function isOnline()
     public function messages() {
         return $this->hasMany(Message::class);
     }
-    public function getRouteKeyName() {
-        return "slug";
-    }
 
     
     /**
@@ -69,11 +66,9 @@ public function isOnline()
      * @var list<string>
      */
     protected $fillable = [
-        'first_name',
-        'last_name',
+        'name',
         'email',
         'password',
-        'slug',
         'admin',
         'avatar',
         'reactions',

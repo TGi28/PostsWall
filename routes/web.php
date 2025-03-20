@@ -38,16 +38,16 @@ Route::get('posts', [PostController::class,'index'])->name('posts.index');
 Route::get('/posts/create', [PostController::class,'create'])->middleware('auth');
 Route::post('posts/create', [PostController::class,'store'])->middleware('auth')->name('posts.store');
 Route::get('/search', [PostController::class, 'search'])->name('posts.search');
-Route::get('posts/{post:slug}/edit', [PostController::class, 'edit'])->middleware('auth');
-Route::patch('/posts/{post:slug}', [PostController::class,'update'])->middleware('auth')->name('posts.update');
-Route::delete('/posts/{post:slug}', [PostController::class,'destroy'])->middleware('auth')->name('posts.destroy');
-Route::get('/posts/{post:slug}', [PostController::class,'show']);
+Route::get('posts/{post:id}/edit', [PostController::class, 'edit'])->middleware('auth');
+Route::patch('/posts/{post:id}', [PostController::class,'update'])->middleware('auth')->name('posts.update');
+Route::delete('/posts/{post:id}', [PostController::class,'destroy'])->middleware('auth')->name('posts.destroy');
+Route::get('/posts/{post:id}', [PostController::class,'show']);
 
 
 Route::get('/tags', [TagController::class,'index']);
 Route::get('/tags/{tag:id}', [TagController::class,'show']);
 
 Route::get('/authors', [UserController::class,'index']);
-Route::get('/authors/{user:slug}', [UserController::class,'show']);
+Route::get('/authors/{user:id}', [UserController::class,'show']);
 
 Route::get('/chats', [MessagesController::class,'index'])->middleware('auth');

@@ -2,7 +2,7 @@
     <x-slot:heading>
         <h1 class="text-3xl font-bold tracking-tight">Edit post "{{ $post->title }}"</h1>
     </x-slot:heading>
-    <form action="{{ route('posts.update', $post->slug) }}" method="POST">
+    <form action="{{ route('posts.update', $post->id) }}" method="POST">
     @csrf
     @method('patch')
     
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <a href="/posts/{{ $post->slug }}" class="text-sm/6 font-semibold text-gray-900">Cancel</a>
+            <a href="/posts/{{ $post->id }}" class="text-sm/6 font-semibold text-gray-900">Cancel</a>
             <x-form-button>Update</x-form-button>
         </div>
     </form>
