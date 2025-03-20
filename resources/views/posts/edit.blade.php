@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <h1 class="text-3xl font-bold tracking-tight">Edit post "{{ $post->title }}"</h1>
     </x-slot:heading>
@@ -43,4 +43,4 @@
             <x-form-button>Update</x-form-button>
         </div>
     </form>
-</x-layout>
+</x-base-layout>

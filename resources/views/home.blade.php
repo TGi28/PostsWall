@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <h1 class="sm:text-[40px] text-[35px] text-center sm:text-left font-bold tracking-tight bg-gray-800 dark:bg-white text-white dark:text-gray-900">Home</h1>
     </x-slot:heading>
@@ -22,4 +22,4 @@
             @endforeach
         </div>
     </div>
-</x-layout>
+</x-base-layout>

@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight">Tags</h1>
     </x-slot:heading>
@@ -15,4 +15,4 @@
             </div>
         @endif
     @endforeach
-</x-layout>
+</x-base-layout>

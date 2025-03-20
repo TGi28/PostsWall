@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <h1 class="text-3xl font-bold tracking-tight text-gray-900">Settings</h1>
     </x-slot:heading>
@@ -41,4 +41,4 @@
           </div>
         </form>
 
-</x-layout>
+</x-base-layout>

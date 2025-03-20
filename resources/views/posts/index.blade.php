@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <h1 class="sm:text-[40px] text-[35px] font-bold tracking-tight text-white dark:text-gray-900 text-center sm:text-left">All posts</h1>
         <div class="flex items-center gap-4 w-full sm:w-1/2 mt-3 sm:mt-0">
@@ -36,4 +36,4 @@
     </x-slot:heading>
     <x-post-card :posts="$posts"></x-post-card>
     <div class="mt-4">{{ $posts->appends(['sort' => request('sort')])->links() }}</div>
-</x-layout>
+</x-base-layout>

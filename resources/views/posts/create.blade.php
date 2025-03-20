@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <h1 class="text-3xl font-bold tracking-tight">Create a new Post</h1>
     </x-slot:heading>       
@@ -63,4 +63,4 @@
         </div>
 
     </form>
-</x-layout>
+</x-base-layout>

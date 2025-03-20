@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <div class="flex gap-3">
             <div>
@@ -13,4 +13,4 @@
     </x-slot:heading>
     <h2 class="font-bold text-[40px] text-center">Posts</h2>
     <x-post-card :posts="$user->posts"></x-post-card>
-</x-layout>
+</x-base-layout>

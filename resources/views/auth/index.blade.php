@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <div class="flex justify-center items-center gap-4">
             @if(auth()->user()->avatar !== null)
@@ -55,4 +55,4 @@
         <x-post-card :posts="$posts"></x-post-card>
     </div>
     @endif
-</x-layout>
+</x-base-layout>

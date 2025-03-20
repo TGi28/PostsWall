@@ -1,4 +1,4 @@
-<x-layout>
+<x-base-layout>
     <x-slot:heading>
         <div class="flex justify-between w-full">
             <div>
@@ -63,4 +63,4 @@
         <livewire:reactions :post="$post" />
     </div>
     <livewire:comments :post="$post" />
-</x-layout>
+</x-base-layout>
