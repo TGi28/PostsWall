@@ -25,3 +25,10 @@ window.Echo.channel("message-channel").listen(".message-event", (e) => {
         window.Livewire.dispatch("message-received");
     }
 });
+
+window.Echo.channel("user-status").listen(".user-status-changed", (e) => {
+    Livewire.dispatch("user-status-changed", {
+        user: e.user,
+        status: e.status,
+    });
+});

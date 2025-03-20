@@ -1,5 +1,5 @@
 @props(['users'])
-<ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-gray-900">
+<ul class="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-gray-900">
     @foreach($users as $user)
         <a href="/authors/{{ $user->slug }}"  class=" border-2 border-gray-500 rounded-lg block bg-gray-800 dark:bg-white hover:shadow-sky-500 hover:shadow-md">
             <div class="flex flex-col">
@@ -7,7 +7,7 @@
                     <img class="object-cover w-full block h-[400px] rounded-t-md" src=" @if ($user->avatar) {{ asset($user->avatar) }} @else {{ asset('images/avatars/avatar-default.jpg') }} @endif" alt="">
                 </div>
                 <div class="px-3 pt-3">
-                    <div class="text-[35px] text-center font-bold text-white dark:text-gray-900">{{ $user->first_name }} {{ $user->last_name }}</div>
+                    <div class="text-[35px] text-center font-bold text-white dark:text-gray-900">{{ $user->name }}</div>
                     <div class="flex items-center gap-5 justify-center p-2 rounded-md text-white dark:text-gray-900">
                         <div class="flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">

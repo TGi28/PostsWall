@@ -23,7 +23,7 @@ class Post extends Model
 
     public function getFormattedDateAttribute()
     {
-        return Carbon::parse($this->created_at)->format('d F Y, H:i');
+        return Carbon::parse($this->created_at)->format('d F Y');
     }
 
     public function getRouteKeyName() {

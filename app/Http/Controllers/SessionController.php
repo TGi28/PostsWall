@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserOnlineStatusChanged;
+use App\Http\Middleware\UpdateLastActivity;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +25,7 @@ class SessionController extends Controller
         ]);
         if(Auth::attempt($request->only('email','password'))) {
             $request->session()->regenerate();
+            event(new UserOnlineStatusChanged(auth()->user(), 'online'));
             return redirect()->intended('/');
         } else {
             return back()->with('status', 'Invalid Credentials');
@@ -30,6 +33,7 @@ class SessionController extends Controller
     }
 
     public function destroy() {
+        event(new UserOnlineStatusChanged(auth()->user(), 'offline'));
         auth()->logout();
         request()->session()->invalidate();
         request()->session()->regenerateToken();
@@ -48,10 +52,9 @@ class SessionController extends Controller
         ]);
         
         $request->user()->update([
-            'first_name'=> $request->first_name,
-            'last_name'=> $request->last_name,
+            'name'=> $request->first_name . ' ' . $request->last_name,
             'email'=> $request->email,
         ]);
-        return back()->with('status','Saved!');
+        return back();
     }
 }

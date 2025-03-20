@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <title>Home Page</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
+    @vite(['resources/js/app.js','resources/css/app.css'])
     @livewireStyles
 </head>
 <body class="h-full">
@@ -16,8 +19,11 @@
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex h-16 items-center justify-between">
         <div class="flex items-center">
-          <div class="shrink-0">
+          <div class="shrink-0 flex items-center gap-3">
             <img src="{{ asset('images/TGi.png') }}" alt="TGi" class="m-auto h-auto">
+            @auth
+                  <div class="sm:hidden"><livewire:notifications /></div>
+            @endauth
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
@@ -82,7 +88,7 @@
           </div>
           <div>
             <div class="flex items-center md:ml-6">
-              <div class="relative ml-3">
+              <div class="relative">
                 <div class="flex items-center gap-3">
                 @guest
                     <x-nav-link href="/login" :active="request()->is('/login')">Login</x-nav-link>
@@ -90,7 +96,7 @@
                 @endguest
                 
                 @auth
-                  <livewire:notifications />
+                <div class="hidden"><livewire:notifications /></div>
                 @endauth
                   <button id="dropdownOffsetButton" data-dropdown-toggle="mobiledropdownSkidding" class="rounded-md bg-gray-800 p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 focus:outline-hidden" type="button">
                     <svg class="block size-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon">
@@ -112,7 +118,10 @@
                         <li>
                           <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-sky-500" href="/tags" :active="request()->is('tags')">Tags</a>
                         </li>
-                        @auth  
+                        @auth
+                        <li>
+                          <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-sky-500" href="/chats" :active="request()->is('chats')">Chats</a>
+                        </li>  
                         <li>
                           <a class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 hover:text-sky-500" href="/posts/create" class="{{  (request()->is('posts/create')) ? 'bg-black text-sky-500' : 'bg-sky-500 text-gray-100'}} rounded-md px-3 py-2 text-sm font-medium">Create Post</a>
                         </li>
@@ -198,8 +207,6 @@
     });
 </script>
 
-@livewireScripts
-
-@vite(['resources/css/app.css', 'resources/js/app.js'])
+@livewireScriptConfig
 </body>
 </html>

@@ -26,8 +26,9 @@ class Notifications extends Component
     }
     
     public function loadNotifications() {
-        $this->notifications = auth()->user()->notifications()->latest()->take(5)->get();
-        $this->unreadCount = auth()->user()->notifications()->where('is_read', 0)->count();
+        $authUser = auth()->user()->notifications();
+        $this->notifications = $authUser->latest()->limit(5)->get();
+        $this->unreadCount = $authUser->where('is_read', 0)->count();
     }
 
 

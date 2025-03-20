@@ -27,8 +27,8 @@ class PostController extends Controller
         $request->validate([
             'title' =>'required|min:3',
             'description' =>'required|min:100',
-            'poster' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'preview' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'poster' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'preview' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'tag' =>'required|min:3|string'
         ]);
 
@@ -58,7 +58,6 @@ class PostController extends Controller
         $subscribers = User::whereNotNull('subscriptions')->where('subscriptions', 'LIKE', '%"'.$post->user->id.'"%')->get();
 
             
-        // Remove the dd() and add notification logic
         foreach ($subscribers as $subscriber) {
             $subscriber->notifications()->create([
                 'name' => 'New Post',

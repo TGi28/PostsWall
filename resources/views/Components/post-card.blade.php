@@ -41,7 +41,7 @@
                                 </svg>                                  
                           </span>
                         <div class="divide-gray-400 border-t-2 mt-1 flex justify-between items-center p-3 text-[17px] sm:text-[20px]">
-                            <div class="text-sky-500 font-bold">{{ $post->user->first_name }} {{ $post->user->last_name }}</div>
+                            <div class="text-sky-500 font-bold">{{ $post->user->name }}</div>
                             <div class="text-right text-sky-500">{{ $post->created_at->diffForHumans() }}</div>
                         </div>
                 </div>
