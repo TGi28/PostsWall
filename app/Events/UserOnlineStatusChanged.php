@@ -9,6 +9,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
+use App\Models\User;
 
 class UserOnlineStatusChanged implements ShouldBroadcastNow
 {
@@ -17,7 +18,7 @@ class UserOnlineStatusChanged implements ShouldBroadcastNow
     public $user;
     public $status;
 
-    public function __construct($user, $status)
+    public function __construct(User $user, string $status)
     {
         $this->user = $user;
         $this->status = $status;
@@ -25,16 +26,13 @@ class UserOnlineStatusChanged implements ShouldBroadcastNow
 
     public function broadcastOn()
     {
-        // Use a public channel for user status
-        return new Channel('user-status');
+        return new PrivateChannel('users');
     }
 
     public function broadcastWith()
     {
         return [
-            'user' => [
-                'id' => $this->user->id
-            ],
+            'user_id' => $this->user->id,
             'status' => $this->status
         ];
     }

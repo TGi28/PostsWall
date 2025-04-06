@@ -10,16 +10,5 @@ use Carbon\Carbon;
 
 class UpdateLastActivity
 {
-    public function handle(Request $request, Closure $next)
-    {
-        if (Auth::check()) {
-            // Update or create session record
-            Session::updateOrCreate(
-                ['user_id' => Auth::id()],
-                ['last_activity' => Carbon::now()->timestamp]
-            );
-        }
-        
-        return $next($request);
-    }
+    
 }

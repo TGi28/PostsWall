@@ -24,9 +24,9 @@ Route::patch('/settings', [SessionController::class,'update'])->middleware('auth
 
 
 Route::get('/', function () {
-    return view('home', ['posts' => Post::take(9)->orderBy('views','DESC')->get(),'users' => User::withSum('posts', 'views')
+    return view('home', ['posts' => Post::with('tags','user')->take(9)->orderBy('views','DESC')->get(),'users' => User::with('posts')->withSum('posts', 'views')
     ->orderByDesc('posts_sum_views')
-    ->limit(9)
+    ->take(9)
     ->get(), 'tags' => Tag::take(9)->get()]);
 });
 Route::get('/logout', [SessionController::class,'destroy'])->middleware('auth');
@@ -48,6 +48,6 @@ Route::get('/tags', [TagController::class,'index']);
 Route::get('/tags/{tag:id}', [TagController::class,'show']);
 
 Route::get('/authors', [UserController::class,'index']);
-Route::get('/authors/{user:id}', [UserController::class,'show']);
+Route::get('/authors/{user}', [UserController::class,'show']);
 
 Route::get('/chats', [MessagesController::class,'index'])->middleware('auth');

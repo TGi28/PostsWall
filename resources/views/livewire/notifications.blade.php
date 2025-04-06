@@ -10,9 +10,10 @@
   </button>
 
   <!-- Notifications Dropdown -->
-  <div x-show="open" @click.outside="open = false"
+  <div x-show="open" @click.outside="open = false" x-effect="if (open) $wire.loadNotifications()"
        class="absolute z-10 right-0 mt-12 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-gray-700">
       <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+        @if($notifications != [])
           @forelse ($notifications->where('is_read', 0) as $notification)
               <li wire:key="{{ $notification->id }}" class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 {{ $notification->is_read ? 'opacity-50' : '' }}">
                   <p class="text-sm text-gray-900 dark:text-white">{{ $notification->description }}</p>
@@ -27,6 +28,7 @@
                   No notifications
               </div>
           @endforelse
+        @endif
       </ul>
   </div>
 </div>

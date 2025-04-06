@@ -47,7 +47,7 @@
                     <a class="text-sky-500 text-[16px] sm:text-[20px] font-bold hover:underline" href="/authors/{{ $post->user->id }}">
                         {{ $post->user->name }}
                     </a>
-                    @if($post->user->avatar !== null)
+                    @if($post->user->avatar)
                         <img class="w-[50px] h-[50px] rounded-full object-cover" src="{{ asset($post->user->avatar) }}" alt="{{ $post->user->name }}">
                     @endif
                 </div> 

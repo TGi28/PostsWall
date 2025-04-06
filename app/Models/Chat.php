@@ -14,4 +14,14 @@ class Chat extends Model
     public function participants() {
         return $this->belongsToMany(User::class, 'chat_participants');
     }
+
+    /**
+     * Get the other participant in the chat (not the current user)
+     *
+     * @return \Illuminate\Database\Eloquent\Model|null
+     */
+    public function getOtherParticipantAttribute()
+    {
+        return $this->participants->where('id', '!=', auth()->id())->first();
+    }
 }

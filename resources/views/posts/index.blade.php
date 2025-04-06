@@ -34,6 +34,10 @@
             </form>
         </div>
     </x-slot:heading>
-    <x-post-card :posts="$posts"></x-post-card>
+    <ul class="grid grid-cols-1 sm:grid-rows-1 gap-3 text-center mt-2">
+        @foreach($posts as $post)
+            <x-post-card :$post />
+        @endforeach
+    </ul>
     <div class="mt-4">{{ $posts->appends(['sort' => request('sort')])->links() }}</div>
 </x-base-layout>

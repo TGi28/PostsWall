@@ -13,7 +13,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        Model::handleLazyLoadingViolationUsing(function (Model $model, string $relation) {
+            $class = get_class($model);
+            logger()->warning("Attempted to lazy load [{$relation}] on model [{$class}].");
+        });
     }
 
     /**
@@ -21,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Blade::component('base-layout', \App\View\Components\BaseLayout::class);
+        
     }
 
 

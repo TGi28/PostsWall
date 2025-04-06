@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.js" defer></script>
     @vite(['resources/js/app.js','resources/css/app.css'])
     @livewireStyles
 </head>
@@ -163,7 +162,7 @@
     </div>
   </header>
   <main>
-    <div class="mx-auto max-w-7xl px-4 pb-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
+    <div class="mx-auto max-w-7xl mt-3 px-4 pb-6 sm:px-6 lg:px-8 text-gray-900 dark:text-white">
         {{ $slot }}
     </div>
   </main>

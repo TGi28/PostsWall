@@ -14,30 +14,6 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-    public function session()
-{
-    return $this->hasOne(Session::class, 'user_id', 'id');
-}
-
-
-public function isOnline()
-{
-    $session = $this->session;
-    
-    if (!$session || !$session->last_activity) {
-        return false;
-    }
-
-    // Convert last_activity to a Carbon instance if it's a timestamp
-    $lastActivity = is_numeric($session->last_activity)
-        ? Carbon::createFromTimestamp($session->last_activity)
-        : Carbon::parse($session->last_activity);
-
-    return $lastActivity > now()->subMinutes();
-}
-
-
-
 
     public function posts() {
         return $this->hasMany(Post::class);
@@ -72,7 +48,8 @@ public function isOnline()
         'admin',
         'avatar',
         'reactions',
-        'subscriptions'
+        'subscriptions',
+        'status'
     ];
 
     /**

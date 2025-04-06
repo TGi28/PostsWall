@@ -2,9 +2,13 @@
     <x-slot:heading>
         <h1 class="sm:text-[40px] text-[35px] text-center sm:text-left font-bold tracking-tight bg-gray-800 dark:bg-white text-white dark:text-gray-900">Home</h1>
     </x-slot:heading>
-    <div class="mt-4 mb-8">
+    <div class="mb-8">
         <h2 class="text-center text-[66px] font-bold mb-4">Popular posts</h2>
-        <x-post-card :posts="$posts"></x-post-card>
+        <ul class="grid grid-cols-1 sm:grid-rows-1 gap-3 text-center mt-2">
+            @foreach($posts as $post)
+                <x-post-card :$post />
+            @endforeach
+        </ul>
     </div>
     <div class="mb-8">
         <h2 class="text-center text-[66px] font-bold mb-4">Popular authors</h2>

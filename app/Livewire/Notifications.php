@@ -8,13 +8,12 @@ use function React\Promise\Timer\timeout;
 
 class Notifications extends Component
 {
+    public $authUser;
     // Replace the protected $listeners property with a getListeners method
     public function getListeners()
     {
         return [
-            'notificationAdded' => 'loadNotifications',
-            'notification-received' => 'loadNotifications',
-            'echo:my-channel,.my-event' => 'loadNotifications',
+            'notification-received' => 'countUnreadNotifications',
         ];
     }
     
@@ -22,20 +21,25 @@ class Notifications extends Component
 
     public $unreadCount = 0;
     public function mount() {
-        $this->loadNotifications();
+        $this->authUser = auth()->user();
+        $this->countUnreadNotifications();
     }
     
     public function loadNotifications() {
-        $authUser = auth()->user()->notifications();
-        $this->notifications = $authUser->latest()->limit(5)->get();
-        $this->unreadCount = $authUser->where('is_read', 0)->count();
+        $this->notifications = $this->authUser->notifications()->with('user')->latest()->limit(5)->get();
+        
+    }
+
+    public function countUnreadNotifications() {
+        $this->unreadCount = $this->authUser->notifications->where('is_read', 0)->count();
     }
 
 
     public function markAsRead($id)
     {
-        auth()->user()->notifications()->where('id', $id)->update(['is_read' => 1]);
+        $this->authUser->notifications()->where('id', $id)->delete();
         $this->loadNotifications();
+        $this->countUnreadNotifications();
     }
     
     public function render()

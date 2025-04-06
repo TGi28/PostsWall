@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full bg-gray-100">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <title>Home Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    @vite(['resources/js/app.js','resources/css/app.css'])
-    @livewireStyles
-</head>
+  <html lang="en" class="h-full bg-gray-100">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <meta name="csrf-token" content="{{ csrf_token() }}">
+      <title>Home Page</title>
+      <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+      <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+      <script src="https://cdn.tailwindcss.com"></script>
+      @vite(['resources/js/app.js','resources/css/app.css'])
+      <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+      @livewireStyles
+  </head>
 <body class="h-full">
 <div class="min-h-full bg-gray-100 dark:bg-gray-800">
   <nav class="bg-gray-100 dark:bg-gray-800 opacity-100 sticky top-0 z-50">
@@ -142,32 +142,88 @@
       </div>
     </div>
   </nav>
-  <div class="w-full sm:w-1/3 px-4 pb-6 sm:px-6 lg:px-8 dark:text-gray-900 text-white">
+  <div class="w-full sm:w-1/3 sm:px-6 lg:px-8 dark:text-gray-900 text-white">
     <livewire:chats />
       </div>
   </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let userId = {{ auth()->id() }}; // You can pass the user ID dynamically
+  
 
-        window.Echo.channel('user-status.' + userId)
-            .listen('UserOnlineStatusChanged', (event) => {
-                // Get the status ('online' or 'offline') from the event
-                const status = event.status;
-                console.log('status')
-                // Update the DOM to show the status
-                const statusElement = document.getElementById('status-' + userId);
-                if (statusElement) {
-                    if (status === 'online') {
-                        statusElement.innerHTML = '<span class="text-green-500">Online</span>';
-                    } else {
-                        statusElement.innerHTML = '<span class="text-red-500">Offline</span>';
-                    }
-                }
-            });
-    });
-</script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
   @livewireScriptConfig
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+  <script>
+
+    function callHandler() {
+    return {
+        isReceiving: false,
+        isInCall: false,
+        peerConnection: null,
+        remoteStream: null,
+
+        initPusher() {
+          const userId = @json(auth()->id());
+            Echo.private(`calls.${userId}`)
+                .listen("CallInitiated", (event) => {
+                    this.isReceiving = true;
+                })
+                .listen("CallAccepted", () => {
+                    this.startPeerConnection();
+                });
+        },
+
+
+        startCall(receiverId) {
+            if (typeof Livewire !== "undefined") {
+                Livewire.dispatch("initiateCall", receiverId);
+            }
+        },
+        
+        acceptCall() {
+            this.isReceiving = false;
+            this.isInCall = true;
+            if (typeof Livewire !== "undefined") {
+                Livewire.dispatch("callAccepted");
+            }
+            this.startPeerConnection();
+        },
+
+        startPeerConnection() {
+            this.peerConnection = new RTCPeerConnection({
+                iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+            });
+
+            navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+                stream.getTracks().forEach((track) => this.peerConnection.addTrack(track, stream));
+
+                this.peerConnection.ontrack = (event) => {
+                    document.querySelector("audio").srcObject = event.streams[0];
+                };
+            });
+
+            this.peerConnection.createOffer().then((offer) => {
+                this.peerConnection.setLocalDescription(offer);
+                Echo.channel("calls").whisper("call-offer", { offer });
+            });
+
+            Echo.channel("calls").listenForWhisper("call-offer", (event) => {
+                this.peerConnection.setRemoteDescription(new RTCSessionDescription(event.offer));
+                this.peerConnection.createAnswer().then((answer) => {
+                    this.peerConnection.setLocalDescription(answer);
+                    Echo.channel("calls").whisper("call-answer", { answer });
+                });
+            });
+
+            Echo.channel("calls").listenForWhisper("call-answer", (event) => {
+                this.peerConnection.setRemoteDescription(new RTCSessionDescription(event.answer));
+            });
+        },
+
+        endCall() {
+            this.peerConnection.close();
+            this.isInCall = false;
+        },
+    };
+}
+
+  </script>
 </body>
 </html>

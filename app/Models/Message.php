@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class Message extends Model
 {
-    protected $fillable = ['user_id', 'chat_id', 'message'];
+    protected $fillable = ['user_id', 'chat_id', 'message', 'is_edited','replied_to','file'];
 
     public function getFormattedDateAttribute()
     {
@@ -20,5 +20,9 @@ class Message extends Model
 
     public function chat() {
         return $this->belongsTo(Chat::class);
+    }
+
+    public function repliedMessage() {
+        return $this->belongsTo(Message::class, 'replied_to');
     }
 }

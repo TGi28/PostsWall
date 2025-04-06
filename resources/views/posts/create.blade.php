@@ -57,7 +57,7 @@
                 </div>
             </div>
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <button type="button" class="text-sm/6 font-semibold text-white"><a href="/">Cancel</a></button>
+            <button type="button" class="text-sm/6 font-semibold p-2 rounded-md dark:bg-white dark:text-gray-900 bg-gray-900 text-white"><a href="/">Cancel</a></button>
             <x-form-button>Create</x-form-button>
         </div>
         </div>

@@ -13,7 +13,7 @@ class PostController extends Controller
     public function index(Request $request) {
         $sort_order = $request->query("sort");
 
-        $posts = Post::when($sort_order === 'oldest', function ($query) {
+        $posts = Post::with('user','tags')->when($sort_order === 'oldest', function ($query) {
             return $query->orderBy('created_at','asc');
         })->when($sort_order === 'latest', function ($query) {
             return $query->orderBy('created_at','desc');

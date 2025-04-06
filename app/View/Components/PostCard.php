@@ -9,19 +9,9 @@ use Illuminate\View\Component;
 
 class PostCard extends Component
 {
-    /**
-     * The posts to display.
-     *
-     * @var array|\Illuminate\Support\Collection
-     */
-    public $posts;
-
-    /**
-     * Create a new component instance.
-     */
-    public function __construct($posts)
+    
+    public function __construct(public $post)
     {
-        $this->posts = $posts;
     }
 
     /**

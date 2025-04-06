@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="mt-6 flex items-center justify-end gap-x-6">
-            <a href="/posts/{{ $post->id }}" class="text-sm/6 font-semibold text-gray-900">Cancel</a>
+            <a href="/posts/{{ $post->id }}" class="text-sm/6 font-semibold p-2 rounded-md dark:bg-white dark:text-gray-900 bg-gray-900 text-white">Cancel</a>
             <x-form-button>Update</x-form-button>
         </div>
     </form>
